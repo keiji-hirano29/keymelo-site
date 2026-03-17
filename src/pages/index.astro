@@ -1,11 +1,731 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// index.astro - Keymelo Systems Portfolio Top Page
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keymelo Systems | Keiji Hirano</title>
+  <meta name="description" content="フリーランスITエンジニア Keiji Hiranoのポートフォリオサイト。COBOLから最新技術まで、生命保険システムの深い知見を持つエンジニアです。" />
+  <link rel="icon" href="/icon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-primary: #080c10;
+      --bg-secondary: #0d1117;
+      --bg-card: #111820;
+      --accent-primary: #00d4ff;
+      --accent-secondary: #0057ff;
+      --accent-glow: rgba(0, 212, 255, 0.15);
+      --text-primary: #e8edf2;
+      --text-secondary: #b5cade;
+      --text-muted: #3d4f5e;
+      --border: rgba(0, 212, 255, 0.12);
+      --font-display: 'Inter', sans-serif;
+      --font-caslon: 'Libre Caslon Text', serif;
+      --font-elegant: 'Cormorant Garamond', serif;
+      --font-body: 'Noto Sans JP', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== Nav ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 4rem;
+      background: rgba(8, 12, 16, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-elegant);
+      font-size: 1.2rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a::before {
+      content: '// ';
+      color: var(--accent-primary);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a:hover::before { opacity: 1; }
+
+    /* ===== Hero ===== */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 4rem;
+      z-index: 1;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 20%; right: 10%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(0,87,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-glow-2 {
+      position: absolute;
+      bottom: 20%; left: 5%;
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 2rem;
+      width: 100%;
+      max-width: 1200px;
+      animation: fadeUp 0.9s ease both;
+    }
+
+    .hero-brand {
+      font-family: var(--font-caslon);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 400;
+      color: var(--accent-primary);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 7.5vw, 6rem);
+      font-weight: 500;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 580px;
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .hero-logo-area {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding-right: 0rem;
+      margin-right: -14rem;
+    }
+
+    .hero-logo-area img {
+      max-width: 100%;
+      max-height: 420px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 40px rgba(0,212,255,0.18));
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: all 0.2s;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+    }
+
+    .btn-primary:hover {
+      background: #33deff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,212,255,0.3);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      background: transparent;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+      background: var(--accent-glow);
+    }
+
+    /* ===== Section Base ===== */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 7rem 4rem;
+    }
+
+    .section-header { margin-bottom: 3.5rem; }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent-primary);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 30px; height: 1px;
+      background: var(--accent-primary);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    /* ===== About ===== */
+    #about {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-content { max-width: 840px; }
+
+    .about-text p {
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+      font-size: 1rem;
+      line-height: 1.9;
+    }
+
+    /* ===== Skills ===== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .skill-card:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-4px); }
+    .skill-card:hover::after { opacity: 1; }
+
+    .skill-icon {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--accent-primary);
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+
+    .skill-name {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .skill-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem; }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--accent-primary);
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.2);
+      padding: 0.25rem 0.65rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===== Works ===== */
+    #works {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .works-sub-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.02em;
+      margin-bottom: 1.5rem;
+      margin-top: 3.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .works-sub-title:first-of-type { margin-top: 0; }
+
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .work-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 2.25rem;
+      transition: all 0.3s;
+    }
+
+    .work-card:hover {
+      border-color: rgba(0,212,255,0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+
+    /* 制作物カード：GitHubリンク付き */
+    .work-card-product {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 2.25rem;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .work-card-product:hover {
+      border-color: rgba(0,212,255,0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+
+    .work-card-product .work-desc { flex: 1; }
+
+    /* GitHubリンクボタン */
+    .work-github-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-primary);
+      text-decoration: none;
+      border: 1px solid rgba(0,212,255,0.25);
+      padding: 0.45rem 1rem;
+      letter-spacing: 0.08em;
+      transition: all 0.2s;
+      width: fit-content;
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+    }
+
+    .work-github-link:hover {
+      background: var(--accent-glow);
+      border-color: var(--accent-primary);
+    }
+
+    .work-number {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+    }
+
+    .work-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .work-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+
+    .work-card-soon {
+      background: var(--bg-card);
+      border: 1px dashed var(--text-muted);
+      padding: 2.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      min-height: 160px;
+      opacity: 0.55;
+    }
+
+    .work-soon-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.2em;
+      margin-bottom: 0.75rem;
+    }
+
+    .work-soon-text {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ===== Contact ===== */
+    #contact { text-align: left; }
+    .contact-inner { max-width: 560px; }
+
+    .contact-desc {
+      color: var(--text-secondary);
+      margin: 1.5rem 0 2.5rem;
+      font-size: 1rem;
+      line-height: 1.9;
+    }
+
+    .contact-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    /* ===== Footer ===== */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      font-family: var(--font-elegant);
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+      letter-spacing: 0.12em;
+    }
+
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* ===== Animations ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 1.5rem; }
+      #hero { padding: 0 1.5rem; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-logo-area { display: none; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .works-grid { grid-template-columns: 1fr; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.75rem; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="#hero" class="nav-logo">Keymelo Systems</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#works">Works</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-glow-2"></div>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <span class="hero-brand">Keymelo Systems</span>
+        <h1 class="hero-name">Keiji Hirano</h1>
+        <p class="hero-desc">ここはフリーランスITエンジニア Keiji Hirano のポートフォリオサイトです。</p>
+        <div class="hero-cta">
+          <a href="#works" class="btn-primary">実績を見る →</a>
+          <a href="#contact" class="btn-secondary">お問い合わせ</a>
+        </div>
+      </div>
+      <div class="hero-logo-area">
+        <img src="/logo.png" alt="Keymelo Systems Logo" />
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="about-content fade-up">
+      <div class="section-header">
+        <div class="section-label">About</div>
+        <h2 class="section-title">Profile</h2>
+      </div>
+      <div class="about-text">
+        <p>大手生命保険のITグループ会社にて、主任・チームリーダーとして個人保険契約管理システムの開発に約8年間従事。要件定義から本番移行まで、プロジェクト全工程を経験してきました。</p>
+        <p>COBOLによる生命保険コアシステムの深い業務知識を強みとしながら、Python・Javaによるモダン開発にも積極的に取り組んでいます。</p>
+        <p>フリーランスとして、COBOL案件・モダナイゼーション案件を中心に、お客様のシステム課題解決に貢献します。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-header fade-up">
+      <div class="section-label">Skills</div>
+      <h2 class="section-title">Skills & Technologies</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card fade-up">
+        <div class="skill-icon">[ 01 ] CORE EXPERTISE</div>
+        <div class="skill-name">COBOL / 生命保険システム</div>
+        <div class="skill-desc">個人保険契約管理・バッチ処理・帳票設計など、生命保険コアシステムの業務知識と実装経験を深く保有。</div>
+        <div class="skill-tags">
+          <span class="tag">COBOL</span><span class="tag">生命保険</span><span class="tag">帳票</span><span class="tag">オンライン処理</span><span class="tag">バッチ処理</span><span class="tag">DB2</span><span class="tag">JCL</span>
+        </div>
+      </div>
+      <div class="skill-card fade-up">
+        <div class="skill-icon">[ 02 ] LANGUAGE</div>
+        <div class="skill-name">Python</div>
+        <div class="skill-desc">COBOL資産のPython移行実装など、レガシーシステムのモダナイゼーションを実践的に推進中。</div>
+        <div class="skill-tags">
+          <span class="tag">Python</span><span class="tag">帳票処理</span>
+        </div>
+      </div>
+      <div class="skill-card fade-up">
+        <div class="skill-icon">[ 03 ] LANGUAGE</div>
+        <div class="skill-name">Java</div>
+        <div class="skill-desc">業務システム開発における標準言語として習得中。オブジェクト指向設計の知識をCOBOL経験と組み合わせて活用。</div>
+        <div class="skill-tags">
+          <span class="tag">Java</span>
+        </div>
+      </div>
+      <div class="skill-card fade-up">
+        <div class="skill-icon">[ 04 ] LANGUAGE</div>
+        <div class="skill-name">Kotlin / Android</div>
+        <div class="skill-desc">Kotlinを用いたAndroidアプリを自作開発中。モバイルアプリ開発の実践的なスキルを習得中。</div>
+        <div class="skill-tags">
+          <span class="tag">Kotlin</span><span class="tag">Android</span><span class="tag">アプリ開発</span>
+        </div>
+      </div>
+      <div class="skill-card fade-up">
+        <div class="skill-icon">[ 05 ] PROJECT LEAD</div>
+        <div class="skill-name">設計 / PL / チームリード</div>
+        <div class="skill-desc">要件定義〜本番移行まで全工程を経験。最大10名チームのPLとして複数プロジェクトを完遂。OJT担当経験もあり。</div>
+        <div class="skill-tags">
+          <span class="tag">要件定義</span><span class="tag">基本設計</span><span class="tag">PL</span><span class="tag">OJT</span>
+        </div>
+      </div>
+      <div class="skill-card fade-up">
+        <div class="skill-icon">[ 06 ] QUALIFICATIONS</div>
+        <div class="skill-name">情報処理資格</div>
+        <div class="skill-desc">高度情報処理技術者（システムアーキテクト）取得。設計・アーキテクチャの深い知識を保有。</div>
+        <div class="skill-tags">
+          <span class="tag">システムアーキテクト</span><span class="tag">応用情報</span><span class="tag">基本情報</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="works">
+    <div class="section-header fade-up">
+      <div class="section-label">Works</div>
+      <h2 class="section-title">実績・制作物</h2>
+    </div>
+
+    <div class="works-sub-title fade-up">主要プロジェクト実績</div>
+    <div class="works-grid">
+      <div class="work-card fade-up">
+        <div class="work-number">PROJECT_01 / PL担当 / 10名 × 9ヶ月</div>
+        <div class="work-title">保険料収納代行システム移行</div>
+        <div class="work-desc">みずほ銀行収納代行サービス停止に伴う大規模移行プロジェクト。コンビニ経由の保険料収納システムを新システム（三井住友銀行のシステムに対応）へ移行し、HULFT経由でのデータ受信および社内システムにおけるデータ処理に対応。PLとして全体を統括。</div>
+        <div class="skill-tags"><span class="tag">COBOL</span><span class="tag">PL</span><span class="tag">大規模移行</span><span class="tag">HULFT</span></div>
+      </div>
+      <div class="work-card fade-up">
+        <div class="work-number">PROJECT_02 / PL担当 / 6名 × 6ヶ月</div>
+        <div class="work-title">名義変更システム タブレット端末対応</div>
+        <div class="work-desc">保険契約の名義変更（受取人変更）システムをタブレット端末で稼働させる対応。ホスト稼働部分の要件定義から本番移行までを担当。</div>
+        <div class="skill-tags"><span class="tag">COBOL</span><span class="tag">PL</span><span class="tag">タブレット連携</span></div>
+      </div>
+      <div class="work-card fade-up">
+        <div class="work-number">PROJECT_03 / PL担当 / 5名 × 9ヶ月</div>
+        <div class="work-title">法人向け経理処理案内システム構築</div>
+        <div class="work-desc">対象法人ごとの全契約を紐付け、経理処理案内資料を出力するシステムを新規構築。PLとして要件定義から本番移行まで担当。</div>
+        <div class="skill-tags"><span class="tag">COBOL</span><span class="tag">PL</span><span class="tag">帳票設計</span><span class="tag">DB2</span></div>
+      </div>
+      <div class="work-card fade-up">
+        <div class="work-number">PROJECT_04 / 主担当 / 12ヶ月</div>
+        <div class="work-title">タブレット端末新規開発 解約・減額システム</div>
+        <div class="work-desc">営業職員向けタブレット端末の新規開発プロジェクトにて、保険の解約・減額システムをタブレットで稼働させる対応。ホスト稼働部分の設計・構築～本番移行を主担当として対応。</div>
+        <div class="skill-tags"><span class="tag">COBOL</span><span class="tag">主担当</span><span class="tag">大規模PJ</span></div>
+      </div>
+      <div class="work-card fade-up">
+        <div class="work-number">PROJECT_05 / 主担当 / 6ヶ月</div>
+        <div class="work-title">組立型保険 親契約自動消滅システム</div>
+        <div class="work-desc">親契約に複数の子契約が紐づく組立型保険において、子契約が全て消滅した場合に親契約が自動消滅するシステムを設計・構築。</div>
+        <div class="skill-tags"><span class="tag">COBOL</span><span class="tag">主担当</span><span class="tag">契約管理</span></div>
+      </div>
+      <div class="work-card fade-up">
+        <div class="work-number">PROJECT_06 / PL担当 / 4名 × 3ヶ月 × 複数回</div>
+        <div class="work-title">保険商品更新処理 新商品対応</div>
+        <div class="work-desc">保険商品の更新処理に関連する試算・更新・通知等の各種システムに新商品を対応させる改修をPLとして繰り返し担当。保険業務および保険商品の深い知識を活かした対応。</div>
+        <div class="skill-tags"><span class="tag">COBOL</span><span class="tag">PL</span><span class="tag">保険業務</span></div>
+      </div>
+    </div>
+
+    <div class="works-sub-title fade-up">制作物</div>
+    <div class="works-grid">
+      <div class="work-card-product fade-up">
+        <div class="work-number">PRODUCT_01 / Python</div>
+        <div class="work-title">支社営業所別業績集計表システム</div>
+        <div class="work-desc">生命保険会社の営業業績データを集計し、支社・営業所単位の業績達成率を帳票として出力するシステム。COBOLで構築された基幹システムの帳票作成処理をPythonでリプレイスすることをイメージして開発。CSV・MySQL入力、CSV・PDF出力、GUIモード・CUIモードに対応。</div>
+        <div class="skill-tags">
+          <span class="tag">Python</span><span class="tag">pandas</span><span class="tag">ReportLab</span><span class="tag">tkinter</span><span class="tag">MySQL</span><span class="tag">PyInstaller</span>
+        </div>
+        <a href="https://github.com/keiji-hirano29/insurance-performance-report" target="_blank" class="work-github-link">
+          GitHub →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-inner fade-up">
+      <div class="section-header">
+        <div class="section-label">Contact</div>
+        <h2 class="section-title">お問い合わせ</h2>
+      </div>
+      <p class="contact-desc">案件のご相談・お仕事のご依頼はお気軽にご連絡ください。</p>
+      <div class="contact-links">
+        <a href="mailto:k.hirano@keymelo.jp" class="btn-primary">✉ メール</a>
+        <a href="https://github.com/keiji-hirano29" target="_blank" class="btn-secondary">GitHub →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Keymelo Systems</div>
+    <div class="footer-copy">Copyright 2026 keymelo systems all rights reserved.</div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

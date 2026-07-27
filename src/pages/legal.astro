@@ -1,0 +1,143 @@
+---
+// legal.astro - 特定商取引法に基づく表記
+// 事業者の氏名は特商法の省略規定（請求があれば遅滞なく提供）に基づき非表示にしている。
+// 🔴 この方式は「請求時に遅滞なく開示できる体制」が前提。support@keymelo.jp の受信を放置しないこと。
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const items = [
+  { term: "事業者名", desc: ["Keymelo Systems"] },
+  {
+    term: "事業者の氏名（代表者名）",
+    desc: [
+      "ご請求があった場合に、電子メールにて遅滞なく開示いたします。下記のお問い合わせ先までご連絡ください。",
+    ],
+  },
+  {
+    term: "所在地",
+    desc: ["〒103-0026", "東京都中央区日本橋兜町 17-2 兜町第 6 葉山ビル 4F"],
+  },
+  { term: "電話番号", desc: ["050-1793-2994"] },
+  { term: "お問い合わせ先", desc: ["support@keymelo.jp"], mail: true },
+  {
+    term: "販売価格",
+    desc: [
+      "各アプリ内の購入画面に表示する金額（消費税込）によります。",
+      "無料でご利用いただける機能については、料金は発生しません。",
+    ],
+  },
+  {
+    term: "商品代金以外の必要料金",
+    desc: [
+      "アプリのダウンロードおよびご利用にかかる通信料は、お客様のご負担となります。",
+    ],
+  },
+  {
+    term: "お支払い方法",
+    desc: ["Google Play を通じた決済（Google Play に登録されたお支払い方法）"],
+  },
+  { term: "お支払い時期", desc: ["購入手続きが完了した時点でお支払いが確定します。"] },
+  {
+    term: "商品の引渡時期",
+    desc: [
+      "決済の完了後、ただちにアプリ内で機能が有効になります。",
+      "有効にならない場合は、通信できる状態でアプリを再起動してください。",
+    ],
+  },
+  {
+    term: "返品・キャンセルについて",
+    desc: [
+      "デジタルコンテンツの性質上、購入手続き完了後のお客様都合による返品・交換はお受けできません。",
+      "払い戻しについては Google Play の払い戻しポリシーに従います。アプリが正常に動作しない場合は、お問い合わせ先までご連絡ください。",
+    ],
+  },
+  {
+    term: "動作環境",
+    desc: [
+      "Android 端末（対応バージョンは各アプリのストアページに記載しています）",
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="特定商取引法に基づく表記｜Keymelo Systems"
+  description="Keymelo Systems の特定商取引法に基づく表記です。"
+>
+  <article class="section">
+    <div class="container legal__inner">
+      <h1 class="text-display">特定商取引法に基づく表記</h1>
+
+      <dl class="legal__list">
+        {
+          items.map((item) => (
+            <div class="legal__row">
+              <dt class="legal__term">{item.term}</dt>
+              <dd class="legal__desc">
+                {item.desc.map((line) =>
+                  item.mail ? (
+                    <p>
+                      <a href={`mailto:${line}`}>{line}</a>
+                    </p>
+                  ) : (
+                    <p>{line}</p>
+                  )
+                )}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal__inner {
+    max-width: 46em;
+  }
+
+  .legal__list {
+    margin-top: var(--space-l);
+    border-top: 1px solid var(--line);
+  }
+
+  .legal__row {
+    padding: var(--space-s) 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .legal__term {
+    font-size: var(--text-caption);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .legal__desc {
+    margin-top: 6px;
+    color: var(--ink-secondary);
+    line-height: 1.9;
+  }
+
+  .legal__desc p + p {
+    margin-top: 4px;
+  }
+
+  /* 十分な幅があるときだけ「項目｜内容」の2カラムにする */
+  @media (min-width: 768px) {
+    .legal__row {
+      display: grid;
+      grid-template-columns: 15em 1fr;
+      gap: var(--space-m);
+      align-items: start;
+      padding: var(--space-m) 0;
+    }
+
+    .legal__term {
+      padding-top: 2px;
+    }
+
+    .legal__desc {
+      margin-top: 0;
+    }
+  }
+</style>

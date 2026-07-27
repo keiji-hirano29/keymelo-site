@@ -1,0 +1,309 @@
+/* ==========================================================================
+   Keymelo Systems - Design Tokens & Base Styles
+   Profile: corporate（白基調・余白重視・装飾排除）
+   ブランドカラーの使用は全体の 5〜10% 以内に抑えること
+   ========================================================================== */
+
+:root {
+  /* --- Brand ------------------------------------------------------------ */
+  --brand: #b04f35;        /* CTA背景・リンク文字（白文字 5.23:1 / 白背景 5.23:1） */
+  --brand-dark: #93412b;   /* ホバー */
+  --brand-pale: #f7e9e3;   /* 淡い背景・ホバー面 */
+
+  /* --- Surface ---------------------------------------------------------- */
+  --bg: #fbf7f2;           /* ページ背景（温かいオフホワイト） */
+  --bg-alt: #ffffff;       /* 交互セクションの背景 */
+
+  /* --- Ink（--bg #fbf7f2 上のコントラスト実測値を併記）------------------ */
+  --ink: #1d1d1f;          /* 見出し・本文        15.78:1 */
+  --ink-secondary: #6e6e73;/* 補足テキスト         4.76:1 */
+  --ink-muted: #71717a;    /* メタ情報・フッター   4.54:1 */
+  --line: #e3dcd4;         /* 区切り線（非テキスト） */
+  --logo-ink: #4a3b2a;     /* ロゴタイプ専用。金のマークと馴染む焦げ茶 10.24:1 */
+
+  /* --- Product Accent ---------------------------------------------------
+     -accent : 非テキスト専用（アクセントバー・アイコン面）。UI部品の 3:1 を満たす
+     -text   : 白背景に文字として置く場合のみ使う。4.5:1 以上
+     --------------------------------------------------------------------- */
+  --sugumemo-accent: #2e8e8a;   /* 3.92:1 */
+  --sugumemo-text: #257471;     /* 5.51:1 */
+  --papatto-accent: #2f80ed;    /* 3.87:1 */
+  --papatto-text: #1c63c4;      /* 5.76:1 */
+  --nekonote-accent: #8b5e3c;   /* 5.58:1 */
+  --nekonote-text: #8b5e3c;     /* 5.58:1 */
+
+  /* --- Typography ------------------------------------------------------- */
+  --font-base:
+    "SF Pro JP", "SF Pro Display", "SF Pro Text", -apple-system,
+    BlinkMacSystemFont, "Helvetica Neue", "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans", Meiryo, sans-serif;
+
+  --text-hero: 56px;
+  --text-display: 40px;
+  --text-h1: 28px;
+  --text-h2: 22px;
+  --text-h3: 18px;
+  --text-body: 17px;
+  --text-caption: 14px;
+
+  /* --- Spacing ---------------------------------------------------------- */
+  --space-s: 16px;
+  --space-m: 32px;
+  --space-l: 48px;
+  --space-xl: 64px;
+  --space-xxl: 96px;
+  --space-xxxl: 128px;
+
+  /* --- Layout ----------------------------------------------------------- */
+  --container: 1200px;
+  --gutter: 24px;
+  --radius-card: 18px;
+  --radius-pill: 980px;
+
+  /* --- Motion ----------------------------------------------------------- */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration: 0.3s;
+}
+
+@media (min-width: 1025px) {
+  :root {
+    --gutter: 48px;
+  }
+}
+
+/* モバイルは Hero/Display を縮める（可読性優先。本文は 17px を死守） */
+@media (max-width: 767px) {
+  :root {
+    --text-hero: 34px;
+    --text-display: 28px;
+    --text-h1: 24px;
+    --text-h2: 20px;
+  }
+}
+
+/* ==========================================================================
+   Reset
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-base);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: var(--brand);
+  text-decoration: none;
+  transition: color var(--duration) var(--ease);
+}
+
+a:hover {
+  color: var(--brand-dark);
+  text-decoration: underline;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+
+h1,
+h2,
+h3,
+h4 {
+  font-feature-settings: "palt";
+  color: var(--ink);
+}
+
+h1 {
+  font-size: var(--text-h1);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+h2 {
+  font-size: var(--text-h2);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+h3 {
+  font-size: var(--text-h3);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.text-hero {
+  font-size: var(--text-hero);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-feature-settings: "palt";
+}
+
+.text-display {
+  font-size: var(--text-display);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-feature-settings: "palt";
+}
+
+.text-caption {
+  font-size: var(--text-caption);
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: var(--ink-secondary);
+}
+
+/* ==========================================================================
+   Layout helpers
+   ========================================================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--space-xxl);
+}
+
+.section--alt {
+  background-color: var(--bg-alt);
+}
+
+/* キーボード操作時のみフォーカスリングを出す */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* スクリーンリーダー専用（スキップリンクなど） */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Components
+   ========================================================================== */
+
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease), border-color var(--duration) var(--ease);
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn--primary {
+  background-color: var(--brand);
+  color: #ffffff;
+}
+
+.btn--primary:hover {
+  background-color: var(--brand-dark);
+  color: #ffffff;
+}
+
+.btn--outline {
+  padding: 11px 28px;
+  background-color: transparent;
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.btn--outline:hover {
+  background-color: var(--brand-pale);
+  color: var(--brand-dark);
+}
+
+/* ==========================================================================
+   Scroll reveal
+   JS が無効な環境では .fade-in が付いたまま消えないよう、
+   .js クラスが付いたときだけ初期状態を隠す（プログレッシブエンハンスメント）
+   ========================================================================== */
+
+.js .fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+
+.js .fade-in.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .js .fade-in {
+    opacity: 1;
+    transform: none;
+  }
+}

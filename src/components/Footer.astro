@@ -1,0 +1,112 @@
+---
+// Footer.astro - 全ページ共通フッター
+const year = new Date().getFullYear();
+
+const links = [
+  { href: "/privacy-policy", label: "プライバシーポリシー" },
+  { href: "/legal", label: "特定商取引法に基づく表記" },
+  { href: "/support", label: "サポート" },
+];
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__brand">
+      <div class="site-footer__logo">Keymelo Systems</div>
+      <p class="site-footer__tagline">毎日に、小さなメロディを。</p>
+    </div>
+
+    <nav aria-label="フッターナビゲーション">
+      <ul class="site-footer__links">
+        {
+          links.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+
+  <div class="site-footer__bottom">
+    <small>&copy; {year} Keymelo Systems</small>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--line);
+    background-color: var(--bg);
+  }
+
+  .site-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-l);
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding: var(--space-xl) var(--gutter) var(--space-l);
+  }
+
+  .site-footer__logo {
+    color: var(--ink);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  .site-footer__tagline {
+    margin-top: 6px;
+    color: var(--ink-secondary);
+    font-size: var(--text-caption);
+    letter-spacing: 0.04em;
+  }
+
+  .site-footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px var(--space-m);
+  }
+
+  .site-footer__links a {
+    color: var(--ink-secondary);
+    font-size: var(--text-caption);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+
+  .site-footer__links a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+
+  .site-footer__bottom {
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding: var(--space-s) var(--gutter) var(--space-m);
+  }
+
+  .site-footer__bottom small {
+    color: var(--ink-muted);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 767px) {
+    .site-footer__inner {
+      flex-direction: column;
+      gap: var(--space-m);
+      padding-top: var(--space-l);
+    }
+
+    .site-footer__links {
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+</style>

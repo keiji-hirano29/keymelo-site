@@ -1,0 +1,289 @@
+---
+// index.astro - Keymelo Systems ブランドトップページ
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProductCard from "../components/ProductCard.astro";
+
+const products = [
+  {
+    name: "すぐメモ",
+    description:
+      "思いついたことを、開いてすぐ書けるメモ帳。メモもチェックリストも、フォルダで整理できます。",
+    accentColor: "var(--sugumemo-accent)",
+    href: "https://play.google.com/store/apps/details?id=com.keymelo.memoapp",
+    linkLabel: "Google Play",
+  },
+  {
+    name: "ぱぱっと!!",
+    description:
+      "年齢・日数・営業日を、その場で計算できるツール集。インストールも登録もいりません。",
+    accentColor: "var(--papatto-accent)",
+    href: "https://sakutto.keymelo.com",
+    linkLabel: "サイトを開く",
+  },
+  {
+    name: "ねこのてメモ",
+    description: "いま準備を進めているアプリです。公開までもう少しお待ちください。",
+    accentColor: "var(--nekonote-accent)",
+    comingSoon: true,
+  },
+];
+
+// 「約束」ではなく現時点の事実として書く。
+// 将来のプロダクトを縛らないよう、いま提供している2つで両方成立する内容だけに絞っている。
+// （買い切り前提・アプリ固有になる項目はここに書かない）
+const facts = [
+  {
+    title: "データは端末の中だけ",
+    body: "メモもチェックリストも、保存先は端末の中です。外部のサーバーに送信することはありません。",
+  },
+  {
+    title: "登録もログインも不要",
+    body: "アカウントをつくる必要はありません。開いたその場から使えます。",
+  },
+];
+---
+
+<BaseLayout
+  title="Keymelo Systems｜毎日に、小さなメロディを。"
+  description="Keymelo Systems は、毎日のちょっとした場面に寄り添うアプリとサービスをつくっています。すぐメモ、ぱぱっと!! を提供中。"
+>
+  {/* ===== 1. Hero ===== */}
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__text">
+        <h1 class="text-hero hero__copy">毎日に、<br />小さなメロディを。</h1>
+        <p class="hero__lead">
+          朝の支度も、買い物のメモも、ちょっとした計算も。<br />
+          暮らしの小さな場面が、少しだけ軽くなる道具をつくっています。
+        </p>
+        <a href="#products" class="btn btn--primary hero__cta">
+          つくっているもの
+        </a>
+      </div>
+
+      {/* 隣にブランド名テキストがあるため装飾扱い（alt="" で読み上げ重複を防ぐ） */}
+      <div class="hero__visual">
+        <picture>
+          <source srcset="/logo-mark.webp" type="image/webp" />
+          <img
+            src="/logo-mark.png"
+            alt=""
+            width="900"
+            height="875"
+            fetchpriority="high"
+          />
+        </picture>
+      </div>
+    </div>
+  </section>
+
+  {/* ===== 2. Products ===== */}
+  <section id="products" class="section section--alt">
+    <div class="container">
+      <h2 class="text-display section__title fade-in">Products</h2>
+      <p class="section__lead fade-in">
+        いま提供しているもの、これから届けるもの。
+      </p>
+
+      <div class="products">
+        {products.map((product) => <ProductCard {...product} />)}
+      </div>
+    </div>
+  </section>
+
+  {/* ===== 3. About ===== */}
+  <section id="about" class="section">
+    <div class="container">
+      <div class="about fade-in">
+        <h2 class="text-display section__title">Keymelo という名前について</h2>
+        <p class="about__text">
+          Keymelo は、<strong>Key</strong>（鍵）と <strong>Melody</strong
+          >（旋律）を組み合わせた名前です。
+        </p>
+        <p class="about__text">
+          毎日の中には、ほんの少し引っかかる場面があります。それを開ける鍵のような道具を渡せたら、その日の流れに小さなメロディが生まれるはずだと考えました。
+        </p>
+        <p class="about__text">
+          派手なものをつくりたいわけではありません。使う人の一日に、ささやかな軽さを足せること。それがこのブランドの軸です。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* ===== 4. 約束 ===== */}
+  <section class="section section--alt">
+    <div class="container">
+      <h2 class="text-display section__title fade-in">
+        Keymelo のアプリについて
+      </h2>
+      <p class="section__lead fade-in">
+        いま提供しているアプリは、どれもこうなっています。
+      </p>
+
+      <ul class="facts">
+        {
+          facts.map((fact) => (
+            <li class="fact fade-in">
+              <h3 class="fact__title">{fact.title}</h3>
+              <p class="fact__body">{fact.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  {/* ===== 5. Support ===== */}
+  <section class="section">
+    <div class="container">
+      <div class="support fade-in">
+        <h2 class="text-display section__title">お困りのことがあれば</h2>
+        <p class="support__text">
+          不具合のご報告も、こんな機能がほしいというご要望も、ひとつずつ読んでいます。
+        </p>
+        <a href="/support" class="btn btn--outline">サポートページへ</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ===== Hero ===== */
+  .hero {
+    display: flex;
+    align-items: center;
+    min-height: 72vh;
+    padding-block: var(--space-xxl);
+  }
+
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    gap: var(--space-l);
+  }
+
+  .hero__visual {
+    order: -1;
+    justify-self: center;
+    max-width: 220px;
+  }
+
+  .hero__copy {
+    max-width: 16em;
+  }
+
+  .hero__lead {
+    max-width: 34em;
+    margin-top: var(--space-m);
+    color: var(--ink-secondary);
+    font-size: var(--text-body);
+    line-height: 1.9;
+  }
+
+  .hero__cta {
+    margin-top: var(--space-l);
+  }
+
+  @media (min-width: 900px) {
+    .hero__inner {
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: var(--space-xl);
+    }
+
+    .hero__visual {
+      order: 0;
+      justify-self: end;
+      /* v3マークはほぼ正方形（900:875）。360pxだとテキスト側より背が高くなり
+         Hero全体を押し広げるため、テキストブロックと釣り合う高さに絞っている */
+      max-width: 320px;
+    }
+  }
+
+  /* ===== Section 共通 ===== */
+  .section__title {
+    max-width: 20em;
+  }
+
+  .section__lead {
+    max-width: 34em;
+    margin-top: var(--space-s);
+    color: var(--ink-secondary);
+  }
+
+  /* ===== Products ===== */
+  .products {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-m);
+    margin-top: var(--space-l);
+  }
+
+  @media (min-width: 768px) {
+    .products {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* ===== About ===== */
+  .about {
+    max-width: 42em;
+  }
+
+  .about__text {
+    margin-top: var(--space-s);
+    color: var(--ink-secondary);
+    line-height: 1.9;
+  }
+
+  .about__text strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ===== アプリについて ===== */
+  .facts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
+    margin-top: var(--space-l);
+  }
+
+  @media (min-width: 768px) {
+    .facts {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-l);
+      max-width: 46em;
+    }
+  }
+
+  .fact {
+    padding-top: var(--space-s);
+    border-top: 1px solid var(--line);
+  }
+
+  .fact__title {
+    font-size: var(--text-h3);
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  .fact__body {
+    margin-top: 10px;
+    color: var(--ink-secondary);
+    font-size: var(--text-caption);
+    line-height: 1.9;
+  }
+
+  /* ===== Support ===== */
+  .support {
+    max-width: 42em;
+  }
+
+  .support__text {
+    margin-top: var(--space-s);
+    margin-bottom: var(--space-m);
+    color: var(--ink-secondary);
+    line-height: 1.9;
+  }
+</style>

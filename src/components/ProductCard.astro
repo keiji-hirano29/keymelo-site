@@ -1,0 +1,126 @@
+---
+// ProductCard.astro - Products セクションのカード
+interface Props {
+  name: string;
+  description: string;
+  /** カード上端のアクセントバーの色（非テキスト用途） */
+  accentColor: string;
+  href?: string;
+  /** リンクのラベル（例：Google Play で見る） */
+  linkLabel?: string;
+  /** 公開前のプロダクトは true。リンクを出さず準備中バッジを表示する */
+  comingSoon?: boolean;
+}
+
+const {
+  name,
+  description,
+  accentColor,
+  href,
+  linkLabel,
+  comingSoon = false,
+} = Astro.props;
+---
+
+<article class="card fade-in" style={`--accent: ${accentColor}`}>
+  <div class="card__bar" aria-hidden="true"></div>
+
+  <div class="card__body">
+    <h3 class="card__name">{name}</h3>
+    <p class="card__desc">{description}</p>
+
+    {
+      comingSoon ? (
+        <span class="card__badge">準備中</span>
+      ) : (
+        href && (
+          <a class="card__link" href={href} target="_blank" rel="noopener">
+            {linkLabel ?? "詳しく見る"}
+            <span aria-hidden="true">&nbsp;→</span>
+          </a>
+        )
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--bg-alt);
+    border-radius: var(--radius-card);
+    transition: transform var(--duration) var(--ease);
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+  }
+
+  /* ブランドカラーの使用量を抑えるため、プロダクト色はこの4pxのバーだけに使う */
+  .card__bar {
+    height: 4px;
+    background-color: var(--accent);
+  }
+
+  .card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-m);
+  }
+
+  .card__name {
+    font-size: var(--text-h2);
+    font-weight: 600;
+  }
+
+  .card__desc {
+    flex: 1;
+    margin-top: 12px;
+    color: var(--ink-secondary);
+    font-size: var(--text-body);
+    line-height: 1.8;
+  }
+
+  .card__link {
+    margin-top: var(--space-s);
+    color: var(--brand);
+    font-size: var(--text-body);
+    text-decoration: none;
+    /* カード幅が狭いときに矢印だけ次行へ落ちるのを防ぐ */
+    white-space: nowrap;
+  }
+
+  .card__link:hover {
+    color: var(--brand-dark);
+    text-decoration: underline;
+  }
+
+  .card__badge {
+    margin-top: var(--space-s);
+    padding: 4px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    color: var(--ink-muted);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+  }
+
+  /* タブレット幅(768〜1024px)で3カラムにすると1枚あたり約214pxしかない。
+     ここで padding を広げるとリンクがカード内に収まらないため、
+     余白の拡大はデスクトップ幅からにしている */
+  @media (min-width: 1025px) {
+    .card__body {
+      padding: var(--space-l);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card:hover {
+      transform: none;
+    }
+  }
+</style>

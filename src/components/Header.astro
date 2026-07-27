@@ -1,0 +1,125 @@
+---
+// Header.astro - 全ページ共通ヘッダー（sticky / frosted glass）
+import Logo from "./Logo.astro";
+
+interface Props {
+  /** 現在のパス。ナビの aria-current 判定に使う */
+  path?: string;
+}
+
+const { path = "/" } = Astro.props;
+
+const navItems = [
+  { href: "/#products", label: "プロダクト" },
+  { href: "/#about", label: "Keymeloについて" },
+  { href: "/support", label: "サポート" },
+];
+
+/**
+ * 静的ビルド（build.format: 'directory'）では Astro.url.pathname が末尾 "/" 付きになる。
+ * dev サーバーでは付かないため、素の === 比較では本番だけ aria-current が消える。
+ * 末尾スラッシュを落としてから比較すること。
+ */
+const stripSlash = (p: string) => p.replace(/\/+$/, "") || "/";
+
+/** ハッシュ付きリンクはページ内アンカーなので現在地判定から除外する */
+const isCurrent = (href: string) =>
+  !href.includes("#") && stripSlash(path) === stripSlash(href);
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="/" class="site-header__logo" aria-label="Keymelo Systems ホーム">
+      <Logo size={34} decorative />
+    </a>
+
+    <nav aria-label="メインナビゲーション">
+      <ul class="site-header__nav">
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isCurrent(item.href) ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(251, 247, 242, 0.72);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding: 14px var(--gutter);
+  }
+
+  .site-header__logo {
+    display: inline-flex;
+    flex-shrink: 0;
+    color: var(--ink);
+    text-decoration: none;
+    transition: opacity var(--duration) var(--ease);
+  }
+
+  .site-header__logo:hover {
+    color: var(--ink);
+    text-decoration: none;
+    opacity: 0.7;
+  }
+
+  .site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+  }
+
+  .site-header__nav a {
+    color: var(--ink-secondary);
+    font-size: var(--text-caption);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .site-header__nav a:hover,
+  .site-header__nav a[aria-current="page"] {
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  /* モバイルはハンバーガーを置かず、ナビを折り返して常時表示する。
+     項目が3つだけなので開閉UIを足すより軽くて事故が少ない */
+  @media (max-width: 600px) {
+    .site-header__inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      padding-block: 12px;
+    }
+
+    .site-header__nav {
+      gap: var(--space-s);
+    }
+  }
+</style>

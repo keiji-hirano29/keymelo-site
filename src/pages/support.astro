@@ -1,0 +1,183 @@
+---
+// support.astro - サポート・FAQ
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// 記載内容はすべてアプリの実装を確認したうえで書いている（推測で書かない）
+const faqs = [
+  {
+    q: "機種変更するとき、メモは移せますか？",
+    a: [
+      "はい。すぐメモには、メモ・チェックリスト・フォルダをまとめて1つのファイルに書き出す機能と、そのファイルを読み込む機能があります。",
+      "古い端末で書き出したファイルを新しい端末で読み込むと、データを引き継げます。データは端末の中にしか保存していないため、移行はこの方法で行ってください。",
+    ],
+  },
+  {
+    q: "広告を消したあと、再インストールや機種変更をしたらどうなりますか？",
+    a: [
+      "購入時と同じ Google アカウントであれば、アプリの起動時に購入状態が自動で確認され、広告のない状態に戻ります。あらためてお支払いいただく必要はありません。",
+      "もし広告が表示されたままの場合は、通信できる状態でアプリを再起動してみてください。それでも戻らないときはご連絡ください。",
+    ],
+  },
+  {
+    q: "書いたメモの内容が、どこかに送信されることはありますか？",
+    a: [
+      "ありません。メモ・チェックリスト・フォルダは端末の中のデータベースにのみ保存しています。アプリには、その内容を外部に送信する仕組みそのものがありません。",
+      "広告表示のために広告配信事業者へ送られる情報については、プライバシーポリシーに記載しています。",
+    ],
+  },
+  {
+    q: "アプリのデータを完全に消したいです。",
+    a: [
+      "端末の「設定 → アプリ → すぐメモ → ストレージ → データを消去」で、アプリ内のすべてのデータを削除できます。アンインストールでも同様に削除されます。",
+      "削除したデータは復元できませんのでご注意ください。",
+    ],
+  },
+  {
+    q: "こんな機能がほしい、という要望を送ってもいいですか？",
+    a: [
+      "ぜひ送ってください。いただいたご要望はすべて目を通しています。",
+      "すべてを実装できるとは限りませんが、何に困っているかを知ることが、次に何をつくるかを決めるいちばんの手がかりになります。",
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="サポート｜Keymelo Systems"
+  description="Keymelo Systems のアプリ・サービスに関するお問い合わせ先と、よくあるご質問をまとめています。"
+>
+  <section class="section">
+    <div class="container">
+      <h1 class="text-display page__title">サポート</h1>
+      <p class="page__lead">
+        不具合のご報告も、ご要望も、使い方のご質問も。ひとつずつ読んでいます。
+      </p>
+
+      <div class="contact">
+        <h2>お問い合わせ先</h2>
+        <p class="contact__mail">
+          <a href="mailto:support@keymelo.jp">support@keymelo.jp</a>
+        </p>
+        <p class="contact__note">
+          ご返信までに数日いただくことがあります。不具合のご報告の場合、
+          <strong>お使いの端末・アプリ名・どんな操作をしたときに起きたか</strong>
+          を書き添えていただけると、原因を特定しやすくなり助かります。
+        </p>
+      </div>
+
+      <h2 class="faq__heading">よくあるご質問</h2>
+      <div class="faq">
+        {
+          faqs.map((faq) => (
+            <details class="faq__item">
+              <summary class="faq__q">{faq.q}</summary>
+              <div class="faq__a">
+                {faq.a.map((paragraph) => (
+                  <p>{paragraph}</p>
+                ))}
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page__title {
+    max-width: 20em;
+  }
+
+  .page__lead {
+    max-width: 34em;
+    margin-top: var(--space-s);
+    color: var(--ink-secondary);
+  }
+
+  /* ===== お問い合わせ ===== */
+  .contact {
+    max-width: 42em;
+    margin-top: var(--space-l);
+    padding: var(--space-m);
+    background-color: var(--bg-alt);
+    border-radius: var(--radius-card);
+  }
+
+  .contact h2 {
+    font-size: var(--text-h3);
+  }
+
+  .contact__mail {
+    margin-top: 10px;
+    font-size: var(--text-h2);
+  }
+
+  .contact__note {
+    margin-top: var(--space-s);
+    color: var(--ink-secondary);
+    font-size: var(--text-caption);
+    line-height: 1.9;
+  }
+
+  .contact__note strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ===== FAQ ===== */
+  .faq__heading {
+    margin-top: var(--space-xl);
+  }
+
+  .faq {
+    max-width: 42em;
+    margin-top: var(--space-s);
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* JS不要のアコーディオン。details/summary のネイティブ挙動を使う */
+  .faq__q {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: var(--space-s) 0;
+    font-size: var(--text-body);
+    font-weight: 600;
+    line-height: 1.7;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq__q::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__q::before {
+    content: "＋";
+    flex-shrink: 0;
+    color: var(--brand);
+    font-weight: 400;
+  }
+
+  .faq__item[open] .faq__q::before {
+    content: "−";
+  }
+
+  .faq__a {
+    padding: 0 0 var(--space-s) 30px;
+  }
+
+  .faq__a p {
+    color: var(--ink-secondary);
+    font-size: var(--text-caption);
+    line-height: 1.9;
+  }
+
+  .faq__a p + p {
+    margin-top: 12px;
+  }
+</style>

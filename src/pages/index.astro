@@ -155,13 +155,41 @@ const facts = [
 <style>
   /* ===== Hero ===== */
   .hero {
+    position: relative;
     display: flex;
     align-items: center;
     min-height: 72vh;
     padding-block: var(--space-xxl);
   }
 
+  /* ロゴマークは立体的な金属表現で、フラットな --bg の上に置くと
+     「貼り付けたシール」のように浮いて見える。背景側にごく淡い環境光を敷いて
+     マークに居場所を与えている。
+     マーク直下だけを光らせると円い「光の輪」が見えて装飾に転ぶため、
+     Hero 全体に広くかけて 68% で背景色に完全に戻し、輪郭が出ないようにしている。
+     中心はマークの位置に合わせる（モバイルは上部中央／900px 以上は右寄り）。
+
+     🔴 半径は見た目だけで決めないこと。この下のリード文は --ink-secondary（--bg 上で 4.76:1）で
+     余裕がほとんどなく、光が届くと簡単に AA（4.5:1）を割る。
+     縦半径を 95% → 50% に絞って 4.51:1 → 4.71:1 を確保している。 */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(
+      100% 50% at 50% 24%,
+      rgba(238, 227, 213, 0.95) 0%,
+      rgba(244, 236, 227, 0.55) 38%,
+      rgba(251, 247, 242, 0) 68%
+    );
+  }
+
   .hero__inner {
+    /* ::before は position:absolute + z-index:0 なので、位置指定のない子要素より
+       後に描画される。テキストが背面に回らないよう明示的に前へ出す */
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
@@ -191,6 +219,20 @@ const facts = [
   }
 
   @media (min-width: 900px) {
+    /* マークが右カラムへ移るのに合わせて環境光の中心も右へ寄せる。
+       横半径を絞っているのは意匠ではなくコントラスト要件のため。
+       115% まで広げると光がリード文（--ink-secondary）の上まで届き 4.30:1 まで落ちて
+       AA（4.5:1）を割る。45% に絞ると光がマーク側へ集中するので、
+       リード文 4.71:1 を確保しつつ接地効果はむしろ強くなる */
+    .hero::before {
+      background: radial-gradient(
+        45% 120% at 80% 48%,
+        rgba(238, 227, 213, 0.95) 0%,
+        rgba(244, 236, 227, 0.55) 38%,
+        rgba(251, 247, 242, 0) 68%
+      );
+    }
+
     .hero__inner {
       grid-template-columns: 1.15fr 0.85fr;
       gap: var(--space-xl);
